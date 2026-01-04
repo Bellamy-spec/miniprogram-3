@@ -19,16 +19,16 @@ App({
   },
   onShow: function(){
     // 调试云函数调用
-    wx.cloud.callFunction({
-      name: 'sum',    // 要调用的云函数名称，这里为sum
-      data: {   // 传递给云函数的event参数，这里为a和b
-        a: 15,
-        b: 23,
-      },
-    }).then(res => {
-      console.log("云函数返回的结果", res)
-    }).catch(err => {
-      console.log("云函数调用失败", err)
-    })
+    // wx.cloud.callFunction({
+    //   name: 'sum',    // 要调用的云函数名称，这里为sum
+    //   data: {   // 传递给云函数的event参数，这里为a和b
+    //     a: 15,
+    //     b: 23,
+    //   },
+    // }).then(res => {
+    //   console.log("云函数返回的结果", res)
+    // }).catch(err => {
+    //   console.log("云函数调用失败", err)
+    // })
   },
 });
