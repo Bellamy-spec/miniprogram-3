@@ -14,3 +14,5 @@
 <view>{{ result.minutes }}分</view>
 <view>{{ result.seconds }}秒</view>
 <view>1970年1月1日至今的毫秒数：{{ result.time }}</view>
+<view>调用来源：{{ source }}</view>
+<view>用户的openID：{{ openID }}</view>

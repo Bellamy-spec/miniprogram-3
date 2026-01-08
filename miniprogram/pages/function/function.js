@@ -6,6 +6,12 @@ Page({
    */
   data: {
     result: {},
+    rectangle: {
+      width: 22,
+      height: 23,
+    },
+    source: '',
+    openID: '',
   },
 
   /**
@@ -23,7 +29,29 @@ Page({
     }).catch(err => {
       console.log("云函数", err);
     })
+    // this.getData();
+    wx.cloud.callFunction({name: "invoke"}).then(res => {
+      console.log("invoke返回结果", res)
+      this.setData({
+        source: res.result.wxContext.SOURCE,
+        openID: res.result.wxContext.OPENID,
+      })
+    })
   },
+  // async getData(){
+  //   const result_print = await wx.cloud.callFunction({
+  //     name: "invoke",
+  //     data: {
+  //       rectangle: this.data.rectangle
+  //     }
+  //   })
+
+  //   console.log("result_print对象", result_print)
+  //   const {result: {circum, area}} = result_print
+  //   console.log({circum, area})
+  //   this.setData({circum, area})
+  //   console.log(this.data.circum)
+  // },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
