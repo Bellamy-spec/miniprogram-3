@@ -64,7 +64,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    wx.cloud.callFunction({
+      name: "post",
+      data: {
+        action: "getPost"
+      }
+    }).then(res => {
+      console.log("post返回结果", res)
+    })
   },
 
   /**

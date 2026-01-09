@@ -1,0 +1,4 @@
+_id,isbn,title,author,publishInfo.press,publishInfo.year
+743372846960a70e0b49e1c319dcd845,9781115545381,JavaScript高级程序设计（第4版）,马特·弗里比斯（Matt Frisbie）,人民邮电出版社,2020
+8f6c3a636960b65f0b549152524a0c2b,9787111677222,JavaScript权威指南（第7版）,大卫·弗兰纳根（David Flanagan）,机械工业出版社,2021
+a23524646960b74b0b49a983210c5245,9787121198854,高性能MySQL（第3版）,"Baron Schwartz, Peter Zaitsev, Vadim Tkachenko",电子工业出版社,2013
