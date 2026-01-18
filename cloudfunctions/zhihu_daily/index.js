@@ -6,6 +6,7 @@ const db = cloud.database()   // 注意这里不是wx.cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
+  // console.log(cloud.database().command)
   const result = await db.collection('zhihu_daily').get()
   return result
 }

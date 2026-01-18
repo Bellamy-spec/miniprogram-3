@@ -1,7 +1,7 @@
 {
   "pages": [
+    "pages/dbtest/dbtest", 
     "pages/schooldata/schooldata",
-    "pages/dbtest/dbtest",
     "pages/function/function",
     "pages/index/index",
     "pages/example/index"

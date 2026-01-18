@@ -15,9 +15,7 @@ Page({
     const db = wx.cloud.database()    // 获取数据库的引用
     const _ = db.command    // 获取数据库查询及更新操作符
     db.collection("school")   // 获取集合school的引用
-      .where({    // 查询的条件操作符where
-        bed: _.gt(5)    // 查询筛选条件，gt表示字段需大于指定值
-      })
+      .where(_.or([{dorm: _.gt(462)}, {gender: "女"}]))
       .field({    // 显示哪些字段
         _id: false,    // 默认显示_id，false表示隐藏
         name: true,
@@ -29,8 +27,9 @@ Page({
       .skip(0)    // 跳过多少个记录（常用于分页），0表示不跳过
       .limit(10)    // 限制显示多少条记录，这里为10
       .get()    // 获取根据查询条件筛选后的集合数据
+      // .count()    // 统计记录
       .then(res => {
-        console.log(res.data)
+        console.log(res)
       })
       .catch(err => {
         console.error(err)
