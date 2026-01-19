@@ -13,6 +13,18 @@
     "navigationBarTitleText": "云开发 QuickStart",
     "navigationBarTextStyle": "black"
   },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/dbtest/dbtest",
+        "text": "知乎数据测试"
+      },
+      {
+        "pagePath": "pages/schooldata/schooldata",
+        "text": "学校数据测试"
+      }
+    ]
+  },
   "sitemapLocation": "sitemap.json",
   "style": "v2",
   "lazyCodeLoading": "requiredComponents"

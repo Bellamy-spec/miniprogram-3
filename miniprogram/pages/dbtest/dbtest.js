@@ -1,4 +1,6 @@
 // pages/dbtest/dbtest.js
+const db = wx.cloud.database()
+const _ = db.command
 Page({
 
   /**
@@ -89,8 +91,6 @@ Page({
   },
 
   async getData(){
-    const db = wx.cloud.database()
-    const _ = db.command
     // 注意，因为数据在get请求对象的data里，所以写法如下
     const daily_1 = (await db.collection('zhihu_daily').where({image: _.exists(true)}).get()).data
     // 也可以分两次写，注意await是在async()函数里
@@ -101,5 +101,23 @@ Page({
     this.setData({
       zhihu_data: daily_1
     })
+  },
+
+  addDaily(){
+    db.collection('zhihu_daily').add({
+      data: {
+        _id: "daily20260119",
+        title: "令人心驰神往的呼伦贝尔大草原",
+        image: "cloud://cloud1-7glpq1pj616a8565.636c-cloud1-7glpq1pj616a8565-1312576773/微信图片_20251218214141.jpg",
+        id: "20260119",
+        type: 0,
+        hint: "苏格拉底的麦穗",
+        url: "",
+      },
+    })
+    .then(res => {
+      console.log(res)
+    })
+    .catch(console.error)
   },
 })

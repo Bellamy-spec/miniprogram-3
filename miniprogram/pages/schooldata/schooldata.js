@@ -1,4 +1,6 @@
 // pages/schooldata/schooldata.js
+const db = wx.cloud.database()    // 获取数据库的引用
+const _ = db.command    // 获取数据库查询及更新操作符
 Page({
 
   /**
@@ -12,10 +14,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const db = wx.cloud.database()    // 获取数据库的引用
-    const _ = db.command    // 获取数据库查询及更新操作符
     db.collection("school")   // 获取集合school的引用
-      .where(_.or([{dorm: _.gt(462)}, {gender: "女"}]))
+      .where(
+        // _.or([{dorm: _.gt(462)}, {gender: "女"}])   // 跨字段或逻辑的标准写法
+        {
+          name: /李/i,
+          gender: "女",
+        }
+      )
       .field({    // 显示哪些字段
         _id: false,    // 默认显示_id，false表示隐藏
         name: true,
@@ -83,5 +89,15 @@ Page({
    */
   onShareAppMessage() {
 
-  }
+  },
+
+  operateStudents(){
+    wx.cloud.callFunction({
+      name: "add_student",
+    })
+    .then(res => {
+      console.log("操作多条数据成功", res)
+    })
+    .catch(console.error)
+  },
 })

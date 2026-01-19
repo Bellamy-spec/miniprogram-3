@@ -1,2 +1,3 @@
 <!--pages/schooldata/schooldata.wxml-->
 <text>pages/schooldata/schooldata.wxml</text>
+<button bind:tap="operateStudents">操作多条记录</button>
