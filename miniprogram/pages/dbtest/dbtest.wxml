@@ -2,6 +2,9 @@
 <text>pages/dbtest/dbtest.wxml</text>
 <button bind:tap="getData">获取日报数据</button>
 <button bind:tap="addDaily">新增日报数据</button>
+<button bind:tap="removeDaily">删除日报数据</button>
+<button bind:tap="updateDaily">更新日报数据</button>
+<button bind:tap="setDaily">替换记录</button>
 <view wx:for="{{ zhihu_data }}" wx:key="*this">
   <image src="{{ item.image }}" mode="widthFix" />
   <view>{{ item.title }}</view>

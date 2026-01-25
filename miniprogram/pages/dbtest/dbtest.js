@@ -1,13 +1,14 @@
 // pages/dbtest/dbtest.js
 const db = wx.cloud.database()
 const _ = db.command
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    zhihu_data: {}
+    zhihu_data: {},
   },
 
   /**
@@ -23,6 +24,38 @@ Page({
     //   .catch(err => {
     //     console.log(err)
     //   })
+
+    // 基于Document的请求的写法
+    db.collection('zhihu_daily').doc("daily20260119")
+      .get()
+      .then(res => {
+        console.log('单个记录的值', res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+    // 基于Collection请求的写法，在where()中指定_id的值即可只查询一条记录，再对记录进行操作
+    // wx.cloud.callFunction({   // 通过云函数获取用户的openid是有必要的
+    //   name: "invoke",
+    // }).then(res => {
+    //   // 后续所有操作都只能放在云函数的回调当中
+    //   const user_openid = res.result.wxContext.OPENID
+    //   console.log("获取到的openid", user_openid)
+    //   db.collection('zhihu_daily').where({
+    //     _openid: user_openid,
+    //     _id: "daily20260119",
+    //   })
+    //     .get()
+    //     .then(res => {
+    //       console.log('基于collection查询的值', res.data)
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // }).catch(err => {
+    //   console.log(err)
+    // })
   },
 
   /**
@@ -119,5 +152,34 @@ Page({
       console.log(res)
     })
     .catch(console.error)
+  },
+
+  removeDaily(){
+    db.collection('zhihu_daily').doc("daily20260119")
+      .remove()
+      .then(console.log)
+      .catch(console.error)
+  },
+
+  updateDaily(){
+    db.collection('zhihu_daily').doc("daily20260119")
+      .update({
+        data: {
+          title: "呼伦贝尔大草原————也就一般向往",
+        }
+      })
+  },
+
+  setDaily(){
+    db.collection('zhihu_daily').doc("daily20260119")
+      .set({
+        data: {
+          title: "阿尔山————神奇的火山遗迹",
+          image: "cloud://cloud1-7glpq1pj616a8565.636c-cloud1-7glpq1pj616a8565-1312576773/微信图片_20251218214148.jpg",
+          id: 20260119,
+          type: 0,
+          hint: "苏格拉底的麦穗",
+        }
+      })
   },
 })
