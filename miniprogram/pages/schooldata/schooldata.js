@@ -94,10 +94,41 @@ Page({
   operateStudents(){
     wx.cloud.callFunction({
       name: "add_student",
+      data: {
+        action: 'addMany',
+      },
     })
     .then(res => {
       console.log("操作多条数据成功", res)
     })
     .catch(console.error)
+  },
+
+  updateStudents(){
+    wx.cloud.callFunction({
+      name: "add_student",
+      data: {
+        action: 'updateMany',
+      },
+    })
+    .then(res => {
+      console.log("更新指定记录成功", res)
+    })
+    .catch(console.error)
+  },
+
+  incBed(){
+    wx.cloud.callFunction({
+      name: "add_student",
+      data: {
+        action: 'incMany',
+      },
+    })
+    .then(res => {
+      console.log("李姓女生床铺号加10成功", res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   },
 })
