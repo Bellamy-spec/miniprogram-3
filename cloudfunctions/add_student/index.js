@@ -87,5 +87,21 @@ exports.main = async (event, context) => {
       })
       return result
     }
+    case 'updateUser': {
+      const result = await db.collection('user').where({
+        tags: _.elemMatch(_.eq("视频"))
+      })
+      .update({
+        data: {
+          // tags: _.push({
+          //   each: ["漫画", "视频", "历史"],     // 把3个元素添加到数组
+          //   // position: 3,    // 从第4位开始，也就是第3位的后面添加
+          //   slice: -5,     // slice(n)表示数组只保留前n个元素，n为0时数组会被清空；为负数时，只保留后n个元素
+          // }),
+          tags: _.pull("汽车"),
+        }
+      })
+      return result
+    }
   }
 }

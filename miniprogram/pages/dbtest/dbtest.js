@@ -56,6 +56,10 @@ Page({
     // }).catch(err => {
     //   console.log(err)
     // })
+
+    // this.chooseUser()
+    // this.selectScore()
+    this.callBook()
   },
 
   /**
@@ -181,5 +185,54 @@ Page({
           hint: "苏格拉底的麦穗",
         }
       })
+  },
+
+  chooseUser(){
+    // 按指定条件筛选用户
+    db.collection('user').where({
+      tags: _.elemMatch(_.eq("视频")),    // 筛选
+    })
+    .get()
+    .then(res => {
+      console.log("用户筛选结果", res)
+    })
+    .catch(console.error)
+  },
+
+  selectScore(){
+    // 按分数筛选
+    db.collection('user').where({
+      scores: _.elemMatch(_.gte(95))
+    })
+    .get()
+    .then(res => {
+      console.log("用户筛选结果", res)
+    })
+    .catch(console.error)
+  },
+
+  updateUser(){
+    wx.cloud.callFunction({
+      name: "add_student",
+      data: {
+        action: "updateUser",
+      },
+    })
+    .then(res => {
+      console.log("用户信息更新成功", res)
+    })
+    .catch(console.error)
+  },
+
+  callBook(){
+    // 按条件查询书籍信息
+    db.collection('user').where({
+      "tags.2": "漫画",
+    })
+    .get()
+    .then(res => {
+      console.log("书籍查询结果", res)
+    })
+    .catch(console.error)
   },
 })
