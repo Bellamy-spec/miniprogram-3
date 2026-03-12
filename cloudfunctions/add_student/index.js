@@ -103,5 +103,50 @@ exports.main = async (event, context) => {
       })
       return result
     }
+    case 'updateBooks': {
+      const result = await db.collection('user')
+      .where({
+        "books.publishInfo.press": "人邮社"
+      })
+      .update({
+        data: {
+          "books.$.publishInfo.press": "人民邮电出版社"
+        }
+      })
+      return result
+    }
+    case 'updateUserBytemp': {
+      // 将where()内的条件赋值给一个变量
+      const query = {
+        tags: _.elemMatch(_.eq("美食"))
+      }
+
+      // 含有更新请求里的data对象赋值给一个变量
+      const updatequery = {
+        tags: _.push({
+          each: ["教育", "财经", "军事"],
+          position: 3,
+          slice: 100
+        })
+      }
+
+      const result = await db.collection('user').where(query)
+      .update({
+        data: updatequery
+      })
+      return result
+    }
+    case 'updateBooksBytemp': {
+      const num = 2
+      const result = await db.collection('user').where({
+        _id: "user001"
+      })
+      .update({
+        data: {
+          [`books.${num}.publishInfo.press`]: "我家的出版社"
+        }
+      })
+      return result
+    }
   }
 }

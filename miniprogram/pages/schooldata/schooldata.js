@@ -131,4 +131,20 @@ Page({
       console.log(err)
     })
   },
+
+  getLi(){
+    // 变量方式获取
+    const studentname = "李"
+    db.collection('school').where({
+      name: db.RegExp({
+        regexp: `${studentname}`,
+        options: 'i',
+      })
+    })
+    .get()
+    .then(res => {
+      console.log("获取成功", res)
+    })
+    .catch(console.error)
+  },
 })

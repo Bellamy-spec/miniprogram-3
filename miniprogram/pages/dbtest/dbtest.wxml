@@ -5,7 +5,11 @@
 <button bind:tap="removeDaily">删除日报数据</button>
 <button bind:tap="updateDaily">更新日报数据</button>
 <button bind:tap="setDaily">替换记录</button>
+<button bind:tap="updateBytemp">用变量的方式更新数据</button>
 <button bind:tap="updateUser">更新用户数组</button>
+<button bind:tap="updateBooks">更新书籍信息</button>
+<button bind:tap="updateUserBytemp">变量方式更新用户</button>
+<button bind:tap="updateBooksBytemp">变量方式更新书籍信息</button>
 <view wx:for="{{ zhihu_data }}" wx:key="*this">
   <image src="{{ item.image }}" mode="widthFix" />
   <view>{{ item.title }}</view>

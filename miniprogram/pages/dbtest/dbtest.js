@@ -174,6 +174,22 @@ Page({
       })
   },
 
+  updateBytemp(){
+    const colName = "zhihu_daily"
+    const id = "daily20260119"
+    const data = {
+      title: "呼伦贝尔大草原————也就一般向往",
+      image: "cloud://cloud1-7glpq1pj616a8565.636c-cloud1-7glpq1pj616a8565-1312576773/微信图片_20251218214143.jpg",
+    }
+
+    db.collection(colName).where({
+      _id: id
+    })
+    .update({
+      data: data
+    })
+  },
+
   setDaily(){
     db.collection('zhihu_daily').doc("daily20260119")
       .set({
@@ -232,6 +248,46 @@ Page({
     .get()
     .then(res => {
       console.log("书籍查询结果", res)
+    })
+    .catch(console.error)
+  },
+
+  updateBooks(){
+    // 更新书籍信息
+    wx.cloud.callFunction({
+      name: "add_student",
+      data: {
+        action: "updateBooks",
+      },
+    })
+    .then(res => {
+      console.log("书籍信息更新成功", res)
+    })
+    .catch(console.error)
+  },
+
+  updateUserBytemp(){
+    wx.cloud.callFunction({
+      name: "add_student",
+      data: {
+        action: "updateUserBytemp",
+      },
+    })
+    .then(res => {
+      console.log("用户信息以变量方式更新成功", res)
+    })
+    .catch(console.error)
+  },
+
+  updateBooksBytemp(){
+    wx.cloud.callFunction({
+      name: "add_student",
+      data: {
+        action: "updateBooksBytemp",
+      },
+    })
+    .then(res => {
+      console.log("书籍信息以变量方式更新成功", res)
     })
     .catch(console.error)
   },
