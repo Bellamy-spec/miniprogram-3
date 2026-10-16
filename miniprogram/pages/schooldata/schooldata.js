@@ -1,6 +1,7 @@
 // pages/schooldata/schooldata.js
 const db = wx.cloud.database()    // 获取数据库的引用
 const _ = db.command    // 获取数据库查询及更新操作符
+const $ = db.aggregate    // 聚合查询操作符
 Page({
 
   /**
@@ -146,5 +147,51 @@ Page({
       console.log("获取成功", res)
     })
     .catch(console.error)
+  },
+
+  normalConsult(){
+    // 普通查询
+    db.collection('school')   // 获取集合school的引用
+      .where({                // 查询的条件操作符where()
+        dorm: _.lt(420)       // 查询筛选条件，lt表示字段需小于指定值
+      })
+      .field({                // 显示哪些字段
+        _id: false,           // 默认显示_id，false表示隐藏
+        name: true,
+        dorm: true,
+        bed: true,
+      })
+      .orderBy('dorm', 'asc')   // 排序方式为升序排列
+      .skip(0)                  // 跳过多少个记录（常用于分页），0表示不跳过
+      .limit(10)                // 限制显示多少个记录，这里为10，默认是20
+      .get()                    // 获取根据查询条件筛选后的集合数据
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  },
+
+  aggregateConsult(){
+    // 聚合查询
+    db.collection('school').aggregate()   // 发起聚合操作
+      .match({                  // 类似于where()，对记录进行筛选
+        dorm: _.lt(420)
+      })
+      .project({                // 类似于field()，在这里可以新增字段
+        _id: false,             // 默认显示_id，false表示隐藏
+        name: true,
+        dorm: true,
+        bed: true,
+      })
+      .sort({                   // 类似于普通查询的orderBy()
+        dorm: 1,
+      })
+      .skip(5)                  // 类似于普通查询的skip()
+      .limit(1000)              // 类似于普通查询的limit()，默认是20，没有上限
+      .end()                    // 注意，end()标志聚合操作的完成
+      .then(res => console.log(res.list))   // 与普通查询的res.data不同
+      .catch(err => console.error(err))
   },
 })

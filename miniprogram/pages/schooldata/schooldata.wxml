@@ -4,3 +4,5 @@
 <button bind:tap="updateStudents">更新指定记录</button>
 <button bind:tap="incBed">李姓女生床铺号加10</button>
 <button bind:tap="getLi">变量方式获取</button>
+<button bind:tap="normalConsult">普通查询</button>
+<button bind:tap="aggregateConsult">聚合查询</button>
