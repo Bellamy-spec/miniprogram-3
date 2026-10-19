@@ -4,6 +4,7 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV }) // 使用当前云环境
 const db = cloud.database()
 const _ = db.command
+const $ = _.aggregate
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -147,6 +148,20 @@ exports.main = async (event, context) => {
         }
       })
       return result
+    }
+    case 'lookupTest': {
+      const result = await db.collection('user').aggregate()    // 这里表示以user集合为主集合
+        .match({
+          book: _.exists(true),
+        })
+        .lookup({
+          from: 'books',          // 要连接的集合名称
+          localField: 'book',     // 相对于user集合而言，book就是本地字段
+          foreignField: '_id',    // 相对于user集合而言，books集合的_id就是外部字段
+          as: 'bookList',         // 指定匹配之后的数据存放在哪个字段
+        })
+        .end()
+      return result.list
     }
   }
 }

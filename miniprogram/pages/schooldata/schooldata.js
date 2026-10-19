@@ -1,7 +1,7 @@
 // pages/schooldata/schooldata.js
 const db = wx.cloud.database()    // 获取数据库的引用
 const _ = db.command    // 获取数据库查询及更新操作符
-const $ = db.aggregate    // 聚合查询操作符
+const $ = db.command.aggregate    // 聚合查询操作符
 Page({
 
   /**
@@ -193,5 +193,97 @@ Page({
       .end()                    // 注意，end()标志聚合操作的完成
       .then(res => console.log(res.list))   // 与普通查询的res.data不同
       .catch(err => console.error(err))
+  },
+
+  matchTest(){
+    db.collection('school').aggregate()
+      .match({
+        bed: _.gt(6)
+      })
+      .project({
+        _id: 0,    // 不显示_id字段
+        name: 1,
+        dorm: 1,
+        bed: 1,
+        "宿舍号": '$dorm',
+        "宿舍信息": $.add([$.multiply(['$dorm', 100]), '$bed']),
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
+
+  groupTest(){
+    db.collection('user6').aggregate()
+      .group({
+        _id: '$gender',   // 按性别来分组，相当于去重，或者获取唯一值
+        chinese: $.sum('$chinese'),   // 男生、女生的语文总分分别是多少
+        mathavg: $.avg('$math'),      // 男生、女生的数学平均分分别是多少
+        engmax: $.max('$english'),    // 男生、女生的英语最高分分别是多少
+        count: $.sum(1),              // count()阶段，后面也会介绍，指的是男生、女生各有多少人
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
+
+  countTest(){
+    db.collection('school').aggregate()
+      .match({
+        bed: _.gt(6),
+      })
+      .group({
+        _id: null,
+        count: $.sum(1),
+      })
+      .project({
+        _id: 0,
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
+
+  unwindTest(){
+    db.collection('user').aggregate()
+      .unwind({
+        path: '$books',
+        includeArrayIndex: 'index',
+      })
+      .group({
+        _id: '$books.title',    // 按书名分组
+        count: $.sum(1),        // 计数每本书被喜欢的次数
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
+
+  replaceRootTest(){
+    db.collection('user').aggregate()
+      .unwind({
+        path: '$books',
+        includeArrayIndex: 'index',
+      })
+      .match({
+        books: _.exists(true)
+      })
+      .replaceRoot({
+        newRoot: '$books',    // 将books里面的数据提取出来，成为根节点
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
+
+  lookupTest(){
+    wx.cloud.callFunction({
+      name: "add_student",
+      data: {
+        action: 'lookupTest',
+      },
+    })
+    .then(res => console.log(res))
+    .catch(err => console.error(err))
   },
 })

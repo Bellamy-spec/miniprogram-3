@@ -6,3 +6,9 @@
 <button bind:tap="getLi">变量方式获取</button>
 <button bind:tap="normalConsult">普通查询</button>
 <button bind:tap="aggregateConsult">聚合查询</button>
+<button bind:tap="matchTest">match()与project()阶段</button>
+<button bind:tap="groupTest">group()阶段</button>
+<button bind:tap="countTest">count()阶段</button>
+<button bind:tap="unwindTest">unwind()阶段</button>
+<button bind:tap="replaceRootTest">replaceRoot()阶段</button>
+<button bind:tap="lookupTest">lookup()阶段</button>
