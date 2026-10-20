@@ -12,3 +12,9 @@
 <button bind:tap="unwindTest">unwind()阶段</button>
 <button bind:tap="replaceRootTest">replaceRoot()阶段</button>
 <button bind:tap="lookupTest">lookup()阶段</button>
+<button bind:tap="sortExample">简单的排名案例</button>
+<button bind:tap="addExample">算术操作符案例</button>
+<button bind:tap="sumExample">求总和与平均值</button>
+<button bind:tap="min_maxExample">查询分组里面的最大值和最小值</button>
+<button bind:tap="firstExample">按条件排序后取第一个值</button>
+<button bind:tap="mergeExample">将整列字段值组成一个数组</button>

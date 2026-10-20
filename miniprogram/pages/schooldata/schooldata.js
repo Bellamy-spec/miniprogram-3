@@ -286,4 +286,101 @@ Page({
     .then(res => console.log(res))
     .catch(err => console.error(err))
   },
+
+  sortExample(){
+    db.collection('user6').aggregate()
+      .sort({
+        chinese: -1,    // 降序排列
+      })
+      .group({
+        _id: null,
+        users: $.push('$$ROOT'),
+      })
+      .unwind({
+        path: '$users',
+        includeArrayIndex: 'rank',    // 将数组的index提取到rank字段
+      })
+      .project({
+        _id: 0,
+        users: '$users',
+        rank: $.add(['$rank', 1],)
+      })
+      .addFields({
+        'users.rank': '$rank',    // 将rank排名写进users对象
+      })
+      .match({
+        // "users._id": "user001",    // 根据用户id查询相应的信息
+        // "rank": 3,   // 通过这个条件可以根据排名查询对应的用户
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(res => console.error(err))
+  },
+
+  addExample(){
+    db.collection('user6').aggregate()
+      .project({
+        _id: 1,
+        name: 1,
+        sum: $.add(['$chinese', '$math', '$english'])
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
+
+  sumExample(){
+    db.collection('fruits').aggregate()
+      .group({
+        _id: null,
+        avg: $.avg('$price'),   // 水果的均价
+        total: $.sum($.multiply(['$price', '$quantity'])),    // 销售总额
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
+
+  min_maxExample(){
+    db.collection('school').aggregate()
+      .group({
+        _id: '$class_and_grade',
+        maxbed: $.max('$bed'),
+        mindorm: $.min('$dorm'),
+        count: $.sum(1),
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
+
+  firstExample(){
+    db.collection('school').aggregate()
+      .sort({
+        bed: -1,
+      })
+      .group({
+        _id: '$class_and_grade',
+        maxbed: $.first('$bed'),
+        name: $.first('$name'),
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
+
+  mergeExample(){
+    db.collection('user').aggregate()
+      .match({
+        books: _.exists(true),
+      })
+      .unwind('$books')
+      .group({
+        _id: '$books.title',
+        bookList: $.push('$books'),
+      })
+      .end()
+      .then(res => console.log(res.list))
+      .catch(err => console.error(err))
+  },
 })
